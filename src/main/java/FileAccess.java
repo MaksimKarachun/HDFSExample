@@ -28,6 +28,10 @@ public class FileAccess
         hdfs = FileSystem.get(new URI(rootPath), configuration);
     }
 
+    public FileSystem getHDFS(){
+        return hdfs;
+    }
+
     /**
      * Creates empty file or directory
      *
@@ -122,7 +126,6 @@ public class FileAccess
         List<String> fileStructureList = new ArrayList<>();
         if (isDirectory(path)){
             Path pathFile = new Path(path);
-            List<String> result = new ArrayList<>();
             FileStatus[] files = hdfs.listStatus(pathFile);
             for (FileStatus file : files){
                 fileStructureList.add(file.getPath().toString());

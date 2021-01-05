@@ -2,38 +2,22 @@ import java.util.List;
 
 public class Main
 {
-    private static String symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String containerAdress = "hdfs://dd1fd2116121:8020";
 
     public static void main(String[] args) throws Exception
     {
 
-        FileAccess fileAccess = new FileAccess("hdfs://f72cf1a87f64:8020");
+        FileAccess fileAccess = new FileAccess(containerAdress);
 
-        //fileAccess.delete("hdfs://f72cf1a87f64:8020/test");
+        fileAccess.delete(containerAdress + "/test");
 
         //create file and directory
-        fileAccess.create("hdfs://f72cf1a87f64:8020/test/file1.txt");
-        fileAccess.create("hdfs://f72cf1a87f64:8020/test/file2.txt");
-        fileAccess.create("hdfs://f72cf1a87f64:8020/test/test2/file1.txt");
-        fileAccess.create("hdfs://f72cf1a87f64:8020/test/test2/file2.txt");
+        fileAccess.create(containerAdress + "/test/file1.txt");
 
-        for (int i = 0; i < 5; i++) {
-            fileAccess.append("hdfs://f72cf1a87f64:8020/test/file1.txt", getRandomWord() + " ");
-            fileAccess.append("hdfs://f72cf1a87f64:8020/test/file2.txt", getRandomWord() + " ");
-        }
-
-        //append string to file
-        fileAccess.append("hdfs://f72cf1a87f64:8020/test/file1.txt", "TEST words ");
-        fileAccess.append("hdfs://f72cf1a87f64:8020/test/file2.txt", "TEST words ");
-
-        //Read file and print
-        System.out.println("\nThe content of the file:");
-        System.out.println(fileAccess.read("hdfs://f72cf1a87f64:8020/test/file1.txt") + '\n');
-
-        //print directory structure
-        List<String> list = fileAccess.list("hdfs://f72cf1a87f64:8020/test");
-        for (String file : list){
-            System.out.println(file);
+        //append file
+        for (int i = 0; i < 100; i++){
+            fileAccess.append(containerAdress + "/test/file1.txt", getRandomWord());
         }
     }
 
